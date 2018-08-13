@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-echo-server
+  labels:
+    app: simple-echo-server
+spec:
+  selector:
+    matchLabels:
+      app: simple-echo-server
+  template:
+    metadata:
+      labels:
+        app: simple-echo-server
+    spec:
+      containers:
+      - name: webhook
+        image: billygoo/simple-echo-server:latest
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: simple-echo-server
+spec:
+  selector:
+    app: simple-echo-server
+  ports:
+  - protocol: TCP
+    port: 8080
+  type: NodePort
